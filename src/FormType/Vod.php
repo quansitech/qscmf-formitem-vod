@@ -3,6 +3,7 @@ namespace FormItem\Vod\FormType;
 
 use Illuminate\Support\Str;
 use Qscmf\Builder\FormType\FormType;
+use Think\View;
 
 class Vod implements FormType{
 
