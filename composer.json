@@ -11,8 +11,9 @@
     }
   ],
   "require": {
-      "php": ">=7.2.0",
-      "tiderjian/think-core": ">=8.0"
+    "php": ">=7.2.0",
+    "tiderjian/think-core": ">=8.0",
+    "alibabacloud/sdk": "^1.8"
   },
   "autoload": {
     "psr-4": {
