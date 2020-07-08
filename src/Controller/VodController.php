@@ -9,7 +9,7 @@
 namespace FormItem\Vod\Controller;
 
 
-use FormItem\Vod\Lib\Vod\Vod;
+use FormItem\Vod\Lib\VodSdk;
 use Think\Controller;
 
 /**
@@ -54,7 +54,7 @@ class VodController  extends Controller {
             return false;
         }
 
-        $vod = new Vod();
+        $vod = VodSdk::getInstance();
 
         $res = $vod->getUploadAuth();
 
@@ -69,17 +69,17 @@ class VodController  extends Controller {
             return false;
         }
 
-        $vod = new Vod();
+        $vod = VodSdk::getInstance();
 
         $res = $vod->getPlayAuth($video_id);
 
         $this->ajaxReturn($res);
     }
 
-    public function checkTranscode(){
-        $video_id = I('get.video_id');
+    public function checkTranscode($video_id){
 
-        if(S('transcode_'. $video_id) == 1){
+        $res=VodSdk::getInstance()->getTranscodeSummary($video_id);
+        if ($res['TranscodeSummaryList'][0]['TranscodeStatus']==='CompleteAllSucc'){
             $this->ajaxReturn(array('status' =>1));
         }else{
             $this->ajaxReturn(array('status' => 2));
@@ -94,7 +94,7 @@ class VodController  extends Controller {
             return false;
         }
 
-        $vod = new Vod();
+        $vod = VodSdk::getInstance();
 
         $res = $vod->refreshUploadAuth($video_id);
 
@@ -110,7 +110,7 @@ class VodController  extends Controller {
             return false;
         }
 
-        $vod = new Vod();
+        $vod = VodSdk::getInstance();
 
         $res = $vod->deleteVideo($video_id);
 

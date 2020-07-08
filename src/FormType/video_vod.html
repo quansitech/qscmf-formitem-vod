@@ -144,109 +144,168 @@
                     }
                 });
 
-                    document.getElementById("upload_{$gid}").addEventListener('change', function (event) {
-                          
-                           var ext = new Array('swf','flv','mp3', 'wav', 'wma', 'wmv', 'mid', 'avi', 'mpg', 'asf', 'rm', 'rmvb','mp4', 'mkv', 'rmvb','mov');
-                            
-                           for(var i=0; i<event.target.files.length; i++) {
+                document.getElementById("upload_{$gid}").addEventListener('change', function (event) {
 
-                            var userData = '{"Vod":""}';
+                    var ext = new Array('swf', 'flv', 'mp3', 'wav', 'wma', 'wmv', 'mid', 'avi', 'mpg', 'asf', 'rm', 'rmvb', 'mp4', 'mkv', 'rmvb', 'mov');
 
-                            var upFileName = event.target.files[i].name;
-                         
-                            if(file_name == upFileName){
-                                alert('这个文件已经上传过一次');
-                                return false;
-                            }
-                            file_name = upFileName;
-                            var index1 = upFileName.lastIndexOf(".");
-                            var index2 = upFileName.length;
-                            var suffix = upFileName.substring(index1+1,index2);
-                            if($.inArray(suffix, ext) == -1){
-                                alert('上传视频后缀不允许');
-                                return false;
-                            }
-                            uploader.addFile(event.target.files[i], null, null, null, userData);
-                           }
-                           
-                           uploader.startUpload();
-                           this.value = '';
-                           
-                    });
-                   
-                    $('body').on('click', '.delfilebtn', function(){
-                     
-                         var video_id = $("input[name='{$form.name}']").val();
-//                         $.post("{:U('qscmf/vod/deleteVideo')}", {video_id:video_id,token:1234}, function(){
-//                             
-//                         });
-                         $("input[name='{$form.name}']").val('');
-                         $("#upload_{$gid}").removeAttr('disabled');
-                         $("#upload_{$gid} input").val('');
-                         $('#upload_{$gid}_upload_vod').empty();
-                         uploader._vod_status = false;
-                         uploader._state = '';
-                         window.clearInterval(timer);
-                    });
-                    
-                    $('body').on('click','.video_delete', function(){
-                        var file_name = $(this).data('file');
-                        $(this).parent().remove();
-                        $("input[name = "+file_name+"]").val('');
-                    });
-                    var has = '';
-                    var player = '';
-                    $('body').on('click', '.review', function(){
-                        
-                    var video_id = $(this).data('video');    
-                    
-                                        $.post("{:U('/extends/vod/getPlayAuth')}", {video_id:video_id,token:1234}, function(res){
-                                            if(has == 1){
-                                               player.dispose();
-                                               $('#J_prismPlayer').empty();
-                                            }
+                    for (var i = 0; i < event.target.files.length; i++) {
 
-                                            player = new Aliplayer({
-                                                id: "J_prismPlayer",
-                                                autoplay: false,
-                                                isLive:false,
-                                                playsinline:true,
-                                                width:"100%",
-                                                height:"400px",
-                                                useFlashPrism:true,            
-                                             skinLayout:[{"name":"controlBar","align":"blabs","x":0,"y":0,"children":[
-                                                    {"name":"timeDisplay","align":"tl","x":10,"y":24},
-                                                    {"name":"playButton","align":"tl","x":15,"y":26},
-                                                    {"name":"progress","align":"tlabs","x":0,"y":0}]},
-                                                    {"name":"infoDisplay","align":"cc"}]    ,   
-                                                                         
-                                              //播放方式二：点播用户推荐
-                                              vid : video_id,
-                                              playauth : res.PlayAuth,                                                       
-                                             },function(player){
-                                                  has = 1;
-                                             });
-                                             
-                                             $('#import-modal-receive').modal('show');
-                                              $('.operators').remove();
+                        var userData = '{"Vod":""}';
 
-                                        });                          
-                        
+                        var upFileName = event.target.files[i].name;
+
+                        if (file_name == upFileName) {
+                            alert('这个文件已经上传过一次');
+                            return false;
+                        }
+                        file_name = upFileName;
+                        var index1 = upFileName.lastIndexOf(".");
+                        var index2 = upFileName.length;
+                        var suffix = upFileName.substring(index1 + 1, index2);
+                        if ($.inArray(suffix, ext) == -1) {
+                            alert('上传视频后缀不允许');
+                            return false;
+                        }
+                        uploader.addFile(event.target.files[i], null, null, null, userData);
+                    }
+
+                    uploader.startUpload();
+                    this.value = '';
+
+                });
+
+                $('body').on('click', '.delfilebtn', function () {
+
+                    var video_id = $("input[name='{$form.name}']").val();
+                    $("input[name='{$form.name}']").val('');
+                    $("#upload_{$gid}").removeAttr('disabled');
+                    $("#upload_{$gid} input").val('');
+                    $('#upload_{$gid}_upload_vod').empty();
+                    uploader._vod_status = false;
+                    uploader._state = '';
+                    window.clearInterval(timer);
+                });
+
+                $('body').on('click', '.video_delete', function () {
+                    var file_name = $(this).data('file');
+                    $(this).parent().remove();
+                    $("input[name = " + file_name + "]").val('');
+                });
+                var has = '';
+                var player = '';
+                $('body').on('click', '.review', function () {
+
+                    var video_id = $(this).data('video');
+
+                    $.post("{:U('/extends/vod/getPlayAuth')}", {video_id: video_id, token: 1234}, function (res) {
+                        if (has == 1) {
+                            player.dispose();
+                            $('#J_prismPlayer').empty();
+                        }
+
+                        player = new Aliplayer({
+                            id: "J_prismPlayer",
+                            autoplay: false,
+                            isLive: false,
+                            playsinline: true,
+                            width: "100%",
+                            height: "400px",
+                            useFlashPrism: false,
+                            //播放方式二：点播用户推荐
+                            vid: video_id,
+                            playauth: res.PlayAuth,
+                            qualitySort: "asc",
+                            useH5Prism: true,
+                            //播放方式二：点播用户推荐
+                            format: "mp4",
+                            mediaType: "video",
+                            controlBarVisibility: 'hover',
+                            "skinLayout": [
+                                {
+                                    "name": "bigPlayButton",
+                                    "align": "blabs",
+                                    "x": 30,
+                                    "y": 80
+                                },
+                                {
+                                    "name": "H5Loading",
+                                    "align": "cc"
+                                },
+                                {
+                                    "name": "errorDisplay",
+                                    "align": "tlabs",
+                                    "x": 0,
+                                    "y": 0
+                                },
+                                // {
+                                //     "name": "tooltip",
+                                //     "align": "blabs",
+                                //     "x": 0,
+                                //     "y": 56
+                                // },
+                                {
+                                    "name": "controlBar",
+                                    "align": "blabs",
+                                    "x": 0,
+                                    "y": 0,
+                                    "children": [
+                                        {
+                                            "name": "progress",
+                                            "align": "tlabs",
+                                            "x": 0,
+                                            "y": 0
+                                        },
+                                        {
+                                            "name": "playButton",
+                                            "align": "tl",
+                                            "x": 15,
+                                            "y": 10
+                                        },
+                                        {
+                                            "name": "timeDisplay",
+                                            "align": "tl",
+                                            "x": 10,
+                                            "y": 10
+                                        },
+                                        {
+                                            "name": "fullScreenButton",
+                                            "align": "tr",
+                                            "x": 10,
+                                            "y": 10
+                                        },
+                                        {
+                                            "name": "volume",
+                                            "align": "tr",
+                                            "x": 5,
+                                            "y": 10
+                                        }
+                                    ]
+                                }
+                            ]
+                        }, function (player) {
+                            has = 1;
+                        });
+
+                        $('#import-modal-receive').modal('show');
+                        $('.operators').remove();
+
                     });
-                    
-                    $('#btn_confirm').click(function(){
-                        has = 0;
-                        player.dispose();
-                        $('#J_prismPlayer').empty();                        
-                        $('#import-modal-receive').modal('hide');
-                    });
-                    
-                     $('#btn_close').click(function(){
-                        has = 0;
-                        player.dispose();
-                        $('#J_prismPlayer').empty();                         
-                        $('#import-modal-receive').modal('hide');
-                    });                   
+
+                });
+
+                $('#btn_confirm').click(function () {
+                    has = 0;
+                    player.dispose();
+                    $('#J_prismPlayer').empty();
+                    $('#import-modal-receive').modal('hide');
+                });
+
+                $('#btn_close').click(function () {
+                    has = 0;
+                    player.dispose();
+                    $('#J_prismPlayer').empty();
+                    $('#import-modal-receive').modal('hide');
+                });
 
             </script>
         </div>
