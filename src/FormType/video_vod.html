@@ -309,8 +309,10 @@
                 });
 
                 $('#btn_close').click(function () {
-                    has = 0;
-                    player.dispose();
+                    if (has) {
+                        has = 0;
+                        player.dispose();
+                    }
                     $('#J_prismPlayer').empty();
                     $('#import-modal-receive').modal('hide');
                 });
