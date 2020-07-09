@@ -107,7 +107,7 @@
                                     if(data.status == 1){
                                         $('#upload_{$gid}_upload_vod').empty();
                                         var html = '<div class="ossuploader-dash-border" ><span class = "review"  data-video = "'+video_id+'"style="padding: 50px;cursor:pointer;">查看视频</span><span class="video_delete" data-file ="{$form.name}">×</span></div>';
-                                        $('.list-group').after(html);
+                                        $('#preview_{$gid} .list-group').after(html);
                                         window.clearInterval(timer);
                                     }
                                 }

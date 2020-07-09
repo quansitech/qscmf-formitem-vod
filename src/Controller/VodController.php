@@ -78,8 +78,8 @@ class VodController  extends Controller {
 
     public function checkTranscode($video_id){
 
-        $res=VodSdk::getInstance()->getTranscodeSummary($video_id);
-        if ($res['TranscodeSummaryList'][0]['TranscodeStatus']==='CompleteAllSucc'){
+        $res=VodSdk::getInstance()->checkTranscode($video_id);
+        if ($res){
             $this->ajaxReturn(array('status' =>1));
         }else{
             $this->ajaxReturn(array('status' => 2));
