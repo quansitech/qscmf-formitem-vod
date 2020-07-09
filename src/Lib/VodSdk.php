@@ -188,4 +188,13 @@ class VodSdk
         }
         return $request->get();
     }
+
+    public function checkTranscode($video_id){
+        $res=$this->getTranscodeSummary($video_id);
+        if ($res['TranscodeSummaryList'][0]['TranscodeStatus']==='CompleteAllSucc'){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
