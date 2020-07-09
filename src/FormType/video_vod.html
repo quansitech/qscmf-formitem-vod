@@ -196,12 +196,17 @@
                 $('body').on('click', '.review', function () {
 
                     var video_id = $(this).data('video');
-
+                    var t_tr;
                     $.get('{:U("/extends/vod/checkTranscode")}' + "?video_id=" + video_id,function (res){
                         $('#J_prismPlayer').empty();
                         if (res.status!=1){
-                            $('#J_prismPlayer').append('<h1 style="color: #3c8dbc;text-align: center">视频转码中，请稍候重试</h1>');
-                            $('#import-modal-receive').modal('show');
+                            toastr.info('视频转码中，请稍候重试');
+                            if (t_tr){
+                                clearInterval(t_tr);
+                            }
+                            t_tr=setTimeout(function (){
+                                toastr.clear();
+                            },3000);
                         }else{
                             $.post("{:U('/extends/vod/getPlayAuth')}", {video_id: video_id, token: 1234}, function (res) {
                                 if (has == 1) {
