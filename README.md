@@ -3,6 +3,7 @@
 ### 安装
 ```php
 composer require quansitech/qscmf-formitem-vod
+```
 
 ### 如何使用
 
